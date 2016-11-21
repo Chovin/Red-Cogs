@@ -153,8 +153,11 @@ class Welcome:
         server = ctx.message.server
         self.settings[server.id]["BOTS_MSG"] = format_msg
         fileIO(settings_path, "save", self.settings)
-        await self.bot.say("Bot welcome message set for the server.")
-        await self.send_testing_msg(ctx, bot=True)
+        if format_msg is None:
+            await self.bot.say("Bot message reset. Bots will now be welcomed as regular users.")
+        else:
+            await self.bot.say("Bot welcome message set for the server.")
+            await self.send_testing_msg(ctx, bot=True)
 
     # TODO: Check if have permissions
     @welcomeset_bot.command(pass_context=True, name="role", no_pm=True)
